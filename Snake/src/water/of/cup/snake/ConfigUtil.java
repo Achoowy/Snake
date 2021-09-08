@@ -7,7 +7,10 @@ import water.of.cup.boardgames.config.ConfigInterface;
 
 public enum ConfigUtil implements ConfigInterface {
 
-	CHAT_SNAKE_POINTS("settings.messages.chat.snake.points", "You got %num% points!");
+	CHAT_SNAKE_POINTS("settings.messages.chat.snake.points", "You got %num% points!"),
+	GUI_SNAKE_SLOW("settings.messages.gui.snake.slow", "Slug"),
+	GUI_SNAKE_NORMAL("settings.messages.gui.snake.normal", "Worm"),
+	GUI_SNAKE_FAST("settings.messages.gui.snake.fast", "Python");
 
 	private final String path;
 	private final String defaultValue;

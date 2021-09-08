@@ -33,7 +33,8 @@ public class SnakeGame extends Game {
 	private int[] headPosition;
 	private int size = 3;
 	private SnakeRunnable snakeRunnable;
-
+	private int speed;
+	
 	public SnakeGame(int rotation) {
 		super(rotation);
 		grid = new int[9][12];
@@ -56,10 +57,19 @@ public class SnakeGame extends Game {
 		direction = new int[] { 0, 1 };
 		spawnApple();
 		updateButtons();
+		
+		// get speed
+		String speedType = (String) gameInventory.getGameData("speed");
+		if (speedType.equals(ConfigUtil.GUI_SNAKE_SLOW.toString())) 
+			speed = 4;
+		else if (speedType.equals(ConfigUtil.GUI_SNAKE_NORMAL.toString()))
+			speed = 3;
+		else if (speedType.equals(ConfigUtil.GUI_SNAKE_FAST.toString()))
+			speed = 2;
 
 		// start snake runnable
 		snakeRunnable = new SnakeRunnable(this);
-		snakeRunnable.runTaskTimer(BoardGames.getInstance(), 40, 4);
+		snakeRunnable.runTaskTimer(BoardGames.getInstance(), 40, speed);
 	}
 
 	private void updateButtons() {
@@ -74,7 +84,7 @@ public class SnakeGame extends Game {
 		mapManager.renderBoard();
 	}
 
-	public void move() {
+	protected void move() {
 		int[] nextLoc = new int[] { headPosition[0] + direction[0], headPosition[1] + direction[1] };
 		// check that nextLoc is on board
 		if (nextLoc[0] < 0 || nextLoc[1] < 0 || nextLoc[0] >= 12 || nextLoc[1] >= 9) {
@@ -124,7 +134,7 @@ public class SnakeGame extends Game {
 		}
 		snakeRunnable = null;
 		this.setInGame(false);
-		teamManager.getGamePlayers().get(0).getPlayer().sendMessage(ConfigUtil.CHAT_SNAKE_POINTS.buildString(apples + ""));
+		teamManager.getGamePlayers().get(0).getPlayer().sendMessage(ConfigUtil.CHAT_SNAKE_POINTS.buildString(apples * (5 - speed) + ""));
 		updateStoragePoints();
 		clearGamePlayers();
 	}
@@ -275,11 +285,12 @@ public class SnakeGame extends Game {
 			LinkedHashMap<StorageType, Object> playerStats = BoardGames.getInstance().getStorageManager()
 					.fetchPlayerStats(player.getPlayer(), getGameStore(), false);
 			double mostPoints = 0;
+			double points = apples * (5 - speed);
 
 			if (playerStats != null && playerStats.containsKey(StorageType.POINTS))
 				mostPoints = (Double) playerStats.get(StorageType.POINTS);
-			if (apples > mostPoints)
-				gameStorage.setData(player.getPlayer(), StorageType.POINTS, (double) apples);
+			if (points > mostPoints)
+				gameStorage.setData(player.getPlayer(), StorageType.POINTS, points);
 		}
 	}
 }
