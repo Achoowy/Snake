@@ -1,6 +1,7 @@
 package water.of.cup.snake;
 
 import water.of.cup.boardgames.game.Game;
+import water.of.cup.boardgames.game.storage.BoardGamesStorageType;
 import water.of.cup.boardgames.game.storage.GameStorage;
 import water.of.cup.boardgames.game.storage.StorageType;
 
@@ -18,7 +19,7 @@ public class SnakeStorage extends GameStorage {
     @Override
     protected StorageType[] getGameStores() {
         return new StorageType[] {
-                StorageType.POINTS
+        		BoardGamesStorageType.POINTS
         };
     }
 }

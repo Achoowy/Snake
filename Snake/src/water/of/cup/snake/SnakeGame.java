@@ -20,6 +20,7 @@ import water.of.cup.boardgames.game.GamePlayer;
 import water.of.cup.boardgames.game.inventories.GameInventory;
 import water.of.cup.boardgames.game.maps.MapData;
 import water.of.cup.boardgames.game.maps.Screen;
+import water.of.cup.boardgames.game.storage.BoardGamesStorageType;
 import water.of.cup.boardgames.game.storage.GameStorage;
 import water.of.cup.boardgames.game.storage.StorageType;
 
@@ -278,7 +279,7 @@ public class SnakeGame extends Game {
 		if (!hasGameStorage())
 			return;
 
-		if (gameStorage.canExecute(StorageType.POINTS)) {
+		if (gameStorage.canExecute(BoardGamesStorageType.POINTS)) {
 
 			GamePlayer player = teamManager.getGamePlayers().get(0);
 
@@ -287,10 +288,10 @@ public class SnakeGame extends Game {
 			double mostPoints = 0;
 			double points = apples * (5 - speed);
 
-			if (playerStats != null && playerStats.containsKey(StorageType.POINTS))
-				mostPoints = (Double) playerStats.get(StorageType.POINTS);
+			if (playerStats != null && playerStats.containsKey(BoardGamesStorageType.POINTS))
+				mostPoints = (Double) playerStats.get(BoardGamesStorageType.POINTS);
 			if (points > mostPoints)
-				gameStorage.setData(player.getPlayer(), StorageType.POINTS, points);
+				gameStorage.setData(player.getPlayer(), BoardGamesStorageType.POINTS, points);
 		}
 	}
 }
